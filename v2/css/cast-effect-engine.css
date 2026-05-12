@@ -1,0 +1,226 @@
+/* Cast Effect Engine v2 - shared styles for visual effects.
+ * Each rule is namespaced under .cast-* (or .matrix-* for the canvas)
+ * so it cannot collide with the regular page CSS.
+ */
+
+/* ---------- Fullscreen overlay base (used by BSOD, future plugins) --- */
+.cast-fullscreen-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	z-index: 99999;
+	pointer-events: auto;
+	overflow: hidden;
+}
+
+/* ---------- Matrix Rain ---------------------------------------------- */
+.matrix-container {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	z-index: 99998;
+	pointer-events: none;
+	display: none;
+	background: #000;
+}
+
+.matrix-container--active {
+	display: block;
+	pointer-events: auto;
+	animation: matrix-fade-in 200ms ease-out;
+}
+
+.matrix-container canvas {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+@keyframes matrix-fade-in {
+	from { opacity: 0; }
+	to   { opacity: 1; }
+}
+
+/* ---------- Glitch Mode ---------------------------------------------- */
+/* Applied to <body>: shake the page contents + cycle a hue/contrast filter.
+ * Both transform and filter create a containing block, so the scanline
+ * overlay must NOT live inside body (see .cast-glitch-overlay below). */
+.cast-glitch {
+	animation:
+		cast-glitch-shake 180ms linear infinite,
+		cast-glitch-filter 600ms ease-in-out infinite;
+}
+
+@keyframes cast-glitch-shake {
+	0%   { transform: translate(0, 0); }
+	10%  { transform: translate(-6px, 1px); }
+	22%  { transform: translate(5px, -2px); }
+	34%  { transform: translate(-3px, 2px); }
+	46%  { transform: translate(7px, 0); }
+	58%  { transform: translate(-5px, -1px); }
+	70%  { transform: translate(2px, 2px); }
+	82%  { transform: translate(-2px, -2px); }
+	100% { transform: translate(0, 0); }
+}
+
+@keyframes cast-glitch-filter {
+	0%, 100% { filter: none; }
+	20%      { filter: hue-rotate(70deg) saturate(1.6) contrast(1.1); }
+	45%      { filter: invert(0.18) hue-rotate(-40deg); }
+	70%      { filter: hue-rotate(190deg) contrast(1.3) saturate(1.4); }
+}
+
+/* Overlay mounted on <html> by the plugin so it stays anchored to the
+ * viewport even while body is transformed/filtered. */
+.cast-glitch-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	pointer-events: none;
+	z-index: 99997;
+	background: repeating-linear-gradient(
+		to bottom,
+		rgba(0, 0, 0, 0) 0px,
+		rgba(0, 0, 0, 0) 2px,
+		rgba(0, 0, 0, 0.22) 2px,
+		rgba(0, 0, 0, 0.22) 3px
+	);
+	animation: cast-glitch-scan 1.2s linear infinite;
+}
+
+.cast-glitch-overlay::before,
+.cast-glitch-overlay::after {
+	content: "";
+	position: absolute;
+	left: 0;
+	width: 100%;
+	pointer-events: none;
+}
+
+.cast-glitch-overlay::before {
+	top: 0;
+	height: 100%;
+	background: linear-gradient(
+		180deg,
+		rgba(255, 0, 80, 0.18) 0%,
+		rgba(255, 0, 80, 0) 30%,
+		rgba(0, 200, 255, 0) 70%,
+		rgba(0, 200, 255, 0.18) 100%
+	);
+	animation: cast-glitch-bands 320ms steps(4, end) infinite;
+}
+
+.cast-glitch-overlay::after {
+	top: 30%;
+	height: 6px;
+	background: rgba(255, 255, 255, 0.55);
+	box-shadow: 0 0 8px rgba(255, 255, 255, 0.35);
+	animation: cast-glitch-tear 720ms steps(8, end) infinite;
+}
+
+@keyframes cast-glitch-scan {
+	from { transform: translateY(0); }
+	to   { transform: translateY(3px); }
+}
+
+@keyframes cast-glitch-bands {
+	0%   { opacity: 0.55; transform: translateY(0); }
+	25%  { opacity: 0.30; transform: translateY(-12px); }
+	50%  { opacity: 0.80; transform: translateY(6px); }
+	75%  { opacity: 0.20; transform: translateY(-3px); }
+	100% { opacity: 0.55; transform: translateY(0); }
+}
+
+@keyframes cast-glitch-tear {
+	0%   { top: 12%;  opacity: 0; }
+	20%  { top: 26%;  opacity: 1; }
+	40%  { top: 48%;  opacity: 0.6; }
+	60%  { top: 64%;  opacity: 0.9; }
+	80%  { top: 82%;  opacity: 0.3; }
+	100% { top: 100%; opacity: 0; }
+}
+
+/* ---------- BSOD ----------------------------------------------------- */
+.cast-fullscreen-overlay--bsod {
+	background-color: #0078d7;
+	color: #ffffff;
+	font-family: "Segoe UI", Roboto, sans-serif;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	padding: 8vh 10vw;
+	animation: cast-bsod-fade-in 240ms ease-out;
+}
+
+.cast-bsod {
+	max-width: 720px;
+	margin: 0 auto;
+	color: #ffffff;
+}
+
+.cast-bsod__face {
+	font-size: clamp(48px, 8vw, 96px);
+	line-height: 1;
+	margin-bottom: 24px;
+	color: #ffffff;
+	text-align: left;
+}
+
+.cast-bsod__title {
+	font-size: clamp(18px, 2.4vw, 28px);
+	line-height: 1.4;
+	margin-bottom: 16px;
+	color: #ffffff;
+	text-align: left;
+}
+
+.cast-bsod__detail {
+	font-size: clamp(13px, 1.4vw, 16px);
+	margin-bottom: 24px;
+	color: #ffffff;
+	text-align: left;
+	line-height: 1.5;
+}
+
+.cast-bsod__progress {
+	font-size: clamp(13px, 1.4vw, 16px);
+	margin-bottom: 32px;
+	color: #ffffff;
+	text-align: left;
+}
+
+.cast-bsod__footer {
+	font-size: clamp(11px, 1.2vw, 14px);
+	color: #cfe5fa;
+	text-align: left;
+	line-height: 1.5;
+}
+
+.cast-bsod__footer strong {
+	color: #ffffff;
+	font-weight: 700;
+}
+
+@keyframes cast-bsod-fade-in {
+	from { opacity: 0; }
+	to   { opacity: 1; }
+}
+
+/* ---------- Reduced motion respect ----------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+	.cast-glitch,
+	.cast-glitch-overlay,
+	.cast-glitch-overlay::before,
+	.cast-glitch-overlay::after {
+		animation: none;
+	}
+	.matrix-container--active {
+		animation: none;
+	}
+}
