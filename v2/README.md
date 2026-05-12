@@ -42,7 +42,7 @@ Once loaded, the engine listens for the following triggers:
 - **Type "roll"**: Does a CSS barrel roll on the whole page.
 - **Type "glitch"**: Triggers a temporary screen glitch/distortion effect.
 - **Type "bsod"**: Triggers a fake Blue Screen of Death.
-- **Stay idle for 1 minute**: Triggers a fake Blue Screen of Death.
+- **Stay idle for 3 minutes**: Triggers a fake Blue Screen of Death.
 
 ## How to Create a New Plugin
 
