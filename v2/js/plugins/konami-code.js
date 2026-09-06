@@ -7,7 +7,7 @@
 (function() {
 	"use strict";
 
-	const SOUND_URL = "/assets/audio/mario_power_up.mp3";
+	const SOUND_URL = new URL("../../assets/audio/mario_power_up.mp3", document.currentScript.src).href;
 
 	window.CastEffectEngine.registerPlugin({
 		id: "konami-code",

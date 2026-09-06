@@ -16,9 +16,11 @@ The `v2` engine is a complete rewrite focused on modularity and performance. It 
 
 Key features of v2 include:
 * **Plugin Architecture**: Easily extend the engine by creating new effects without modifying the core code.
+* **Callable Effects**: Run element-level effects directly with `CastEffectEngine.cast()`.
 * **Event System**: A robust EventBus and InputManager handle user interactions like keyboard typing, scroll events, and idle time.
-* **Built-in Effects**: Comes with ready-to-use plugins like the Konami Code, Matrix digital rain, CSS barrel rolls, screen glitches, and a Blue Screen of Death.
+* **Built-in Plugins**: Includes the Konami Code, Matrix digital rain, CSS barrel rolls, screen glitches, and a Blue Screen of Death.
 * **Safe Styling**: All CSS rules are safely scoped to prevent collisions with your website's existing styles.
+* **TypeWriter Demo**: Shows how to connect an external component to the engine without coupling them together.
 
 ## How to use
 

@@ -1,0 +1,70 @@
+@keyframes cast-meltdown-anim {
+	0% {
+		opacity: 1;
+		filter: none;
+		transform: translateY(0) scale(1);
+		color: inherit;
+		text-shadow: none;
+	}
+	15% {
+		opacity: 1;
+		color: #ff6a00;
+		text-shadow:
+			0 0 8px #ff6a00,
+			0 0 25px #ff2200,
+			0 0 50px rgba(255, 0, 0, 0.4);
+		filter: brightness(1.3);
+		transform: translateY(0) scale(1);
+	}
+	40% {
+		opacity: 0.9;
+		color: #ff3300;
+		text-shadow:
+			0 0 12px #ff3300,
+			0 0 35px #cc0000,
+			0 0 60px rgba(200, 0, 0, 0.5);
+		filter: brightness(1.5) blur(0.5px);
+		transform: translateY(2px) scale(0.99);
+	}
+	65% {
+		opacity: 0.6;
+		color: #cc1100;
+		text-shadow:
+			0 0 15px #cc1100,
+			0 0 40px rgba(180, 0, 0, 0.6);
+		filter: brightness(1.2) blur(1.5px);
+		transform: translateY(5px) scale(0.97);
+	}
+	85% {
+		opacity: 0.2;
+		color: #880000;
+		text-shadow: 0 0 10px rgba(136, 0, 0, 0.4);
+		filter: blur(3px);
+		transform: translateY(8px) scale(0.94);
+	}
+	100% {
+		opacity: 0;
+		color: #440000;
+		text-shadow: none;
+		filter: blur(5px);
+		transform: translateY(12px) scale(0.90);
+	}
+}
+
+.cast-meltdown {
+	display: inline-block;
+	/* Anchor scale() to the top so multiline text does not converge
+	 * toward the vertical centre while the box shrinks. */
+	transform-origin: top left;
+	/* Preserve the target's typography when host-page styles also apply
+	 * to the inline-block used by the effect. */
+	text-align: inherit;
+	line-height: inherit;
+	animation: cast-meltdown-anim 2.5s ease-in forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.cast-meltdown {
+		animation: none;
+	}
+}

@@ -1,0 +1,70 @@
+.cast-fullscreen-overlay--bsod {
+	background-color: #0078d7;
+	color: #ffffff;
+	font-family: "Segoe UI", Roboto, sans-serif;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	padding: 8vh 10vw;
+	animation: cast-bsod-fade-in 240ms ease-out;
+}
+
+.cast-bsod {
+	max-width: 720px;
+	margin: 0 auto;
+	color: #ffffff;
+}
+
+.cast-bsod__face {
+	font-size: clamp(48px, 8vw, 96px);
+	line-height: 1;
+	margin-bottom: 24px;
+	color: #ffffff;
+	text-align: left;
+}
+
+.cast-bsod__title {
+	font-size: clamp(18px, 2.4vw, 28px);
+	line-height: 1.4;
+	margin-bottom: 16px;
+	color: #ffffff;
+	text-align: left;
+}
+
+.cast-bsod__detail {
+	font-size: clamp(13px, 1.4vw, 16px);
+	margin-bottom: 24px;
+	color: #ffffff;
+	text-align: left;
+	line-height: 1.5;
+}
+
+.cast-bsod__progress {
+	font-size: clamp(13px, 1.4vw, 16px);
+	margin-bottom: 32px;
+	color: #ffffff;
+	text-align: left;
+}
+
+.cast-bsod__footer {
+	font-size: clamp(11px, 1.2vw, 14px);
+	color: #cfe5fa;
+	text-align: left;
+	line-height: 1.5;
+}
+
+.cast-bsod__footer strong {
+	color: #ffffff;
+	font-weight: 700;
+}
+
+@keyframes cast-bsod-fade-in {
+	from { opacity: 0; }
+	to   { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.cast-fullscreen-overlay--bsod {
+		animation: none;
+	}
+}

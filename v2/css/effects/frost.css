@@ -1,0 +1,14 @@
+@keyframes cast-frost-anim {
+	0%   { color: inherit; text-shadow: none; }
+	100% { color: #a8d8ea; text-shadow: 0 0 8px #a8d8ea, 0 0 20px rgba(168, 216, 234, 0.4); }
+}
+
+.cast-frost {
+	animation: cast-frost-anim 0.6s ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.cast-frost {
+		animation: none;
+	}
+}

@@ -1,0 +1,34 @@
+.matrix-container {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	z-index: 99998;
+	pointer-events: none;
+	display: none;
+	background: #000;
+}
+
+.matrix-container--active {
+	display: block;
+	pointer-events: auto;
+	animation: matrix-fade-in 200ms ease-out;
+}
+
+.matrix-container canvas {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+@keyframes matrix-fade-in {
+	from { opacity: 0; }
+	to   { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.matrix-container--active {
+		animation: none;
+	}
+}

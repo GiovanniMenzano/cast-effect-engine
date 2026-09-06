@@ -1,0 +1,14 @@
+@keyframes cast-matrixgreen-anim {
+	0%   { color: inherit; text-shadow: none; }
+	100% { color: #00ff41; text-shadow: 0 0 8px #00ff41, 0 0 20px rgba(0, 255, 65, 0.4); }
+}
+
+.cast-matrixgreen {
+	animation: cast-matrixgreen-anim 0.6s ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.cast-matrixgreen {
+		animation: none;
+	}
+}

@@ -487,7 +487,7 @@
 .diamond {
 	height: 75px;
 	width: 75px;
-	background-image: url("/assets/img/xbox_achievement_diamond_sprite.png");
+	background-image: url("../../assets/img/xbox_achievement_diamond_sprite.png");
 	background-size: 11025px 75px;
 	background-position: right;
 	animation: diamond 7.4s steps(147) 2s;

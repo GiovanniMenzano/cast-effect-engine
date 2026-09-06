@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Cast Effect Engine - TypeWriter demo</title>
+	<link rel="icon" href="data:,">
+	<link rel="stylesheet" href="demo.css">
+	<script src="../../js/loader.js" defer></script>
+	<script src="typewriter.js" defer></script>
+	<script src="demo.js" defer></script>
+</head>
+<body>
+	<main class="demo">
+		<header>
+			<p class="eyebrow">Cast Effect Engine v2</p>
+			<h1>TypeWriter demo</h1>
+		</header>
+
+		<section class="demo-stage" aria-label="Effect preview">
+			<div class="terminal">
+				<span class="terminal__prompt">demo:~$</span>
+				<span id="typewriter" class="type-area" aria-live="polite">The engine is ready.</span>
+				<span class="cursor" aria-hidden="true">_</span>
+			</div>
+		</section>
+
+		<section class="controls" aria-label="Demo controls">
+			<button id="run-typewriter" type="button" disabled>Run typewriter</button>
+			<div class="effect-buttons" aria-label="Run one effect">
+				<button type="button" data-effect="flicker" disabled>Flicker</button>
+				<button type="button" data-effect="meltdown" disabled>Meltdown</button>
+				<button type="button" data-effect="matrixgreen" disabled>Matrix green</button>
+				<button type="button" data-effect="frost" disabled>Frost</button>
+				<button type="button" data-effect="text-glitch" disabled>Text glitch</button>
+				<button type="button" data-effect="faderain" disabled>Fade rain</button>
+				<button type="button" data-effect="snap" disabled>Snap</button>
+				<button type="button" data-effect="eject" disabled>Eject</button>
+			</div>
+			<p id="status" class="status" role="status">Loading engine...</p>
+		</section>
+	</main>
+</body>
+</html>

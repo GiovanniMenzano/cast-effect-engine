@@ -12,11 +12,11 @@
 	const BSOD_HTML = `
 		<div class="cast-bsod">
 			<div class="cast-bsod__face">:(</div>
-			<div class="cast-bsod__title">This website ran into a problem and needs to restart.</div>
+			<div class="cast-bsod__title">Your website ran into a problem and needs to restart.</div>
 			<div class="cast-bsod__detail">We're just collecting some error info, and then we'll restart for you.</div>
 			<div class="cast-bsod__progress">100% complete</div>
 			<div class="cast-bsod__footer">
-				<div>For more information about this issue, search online for: <strong>CHEATCODE_OVERFLOW</strong></div>
+				<div>For more information about this issue, search online for: <strong>AWESOMENESS_OVERFLOW</strong></div>
 			</div>
 		</div>
 	`;

@@ -1,29 +1,34 @@
 /**
- * CastEffectEngine - singleton bootstrap + plugin context provider.
+ * CastEffectEngine - singleton bootstrap + plugin/effect context provider.
  *
- * Loaded BEFORE the plugins. Each plugin file calls
- * `CastEffectEngine.registerPlugin({...})` at script eval time; those calls are
- * queued until DOMContentLoaded, at which point we start every trigger
- * manager.
+ * Loaded BEFORE the plugins and effects. Each plugin/effect file calls
+ * `CastEffectEngine.registerPlugin({...})` or `registerEffect({...})` at
+ * script eval time.
  *
- * Plugins receive a frozen-ish `ctx` object (sound/vfx/bus/log).
+ * Two kinds of callable units:
+ *   - Plugins start from a trigger such as keyboard, time, idle or scroll.
+ *   - Effects run on demand through `CastEffectEngine.cast(id, opts)`.
+ *
+ * Both receive a frozen `ctx` object (sound/vfx/bus/sleep/log).
  * They never reach into core internals directly.
  *
  * Trigger dispatch: each plugin's `trigger.type` selects the manager that
  * actually watches for the fire condition (see `core/triggers/*`). When a
  * manager fires, it calls back into `#invokePlugin` which is the single
- * place that runs `action(ctx)` and logs to PHP.
+ * place that runs `action(ctx)`.
+ *
+ * Effect dispatch: `cast(id, { target, ...opts })` looks up the effect
+ * by id, awaits `effect.cast(target, ctx, opts)` and returns its result.
  */
 (function() {
 	"use strict";
-
-	const LOGGER_ENDPOINT = "php/function_logger.php";
 
 	class CastEffectEngine {
 		#bus;
 		#sound;
 		#vfx;
 		#registry;
+		#effects;
 		#input;
 		#triggerManagers;
 		#ctx;
@@ -34,7 +39,7 @@
 			if(!core || !core.EventBus) {
 				throw new Error("[CastEffectEngine] core not loaded - check script order in index.html");
 			}
-			const required = ["KeyboardTrigger", "TimeTrigger", "IdleTrigger", "ScrollTrigger"];
+			const required = ["KeyboardTrigger", "TimeTrigger", "IdleTrigger", "ScrollTrigger", "EffectRegistry"];
 			for(const name of required) {
 				if(!core[name]) {
 					throw new Error("[CastEffectEngine] " + name + " not loaded - check script order in index.html");
@@ -45,6 +50,7 @@
 			this.#sound = new core.SoundManager();
 			this.#vfx = new core.VisualFXManager();
 			this.#registry = new core.PluginRegistry();
+			this.#effects = new core.EffectRegistry();
 			this.#input = new core.InputManager(this.#bus);
 
 			const onFire = (plugin) => this.#invokePlugin(plugin);
@@ -59,6 +65,7 @@
 				sound: this.#sound,
 				vfx: this.#vfx,
 				bus: this.#bus,
+				sleep: (ms) => new Promise((resolve) => setTimeout(resolve, ms)),
 				log: (msg) => console.log("[CastEffectEngine] " + msg)
 			});
 		}
@@ -71,6 +78,29 @@
 				manager.add(definition);
 			}
 			return true;
+		}
+
+		registerEffect(definition) {
+			return this.#effects.register(definition);
+		}
+
+		async cast(effectId, opts) {
+			const effect = this.#effects.findById(effectId);
+			if(!effect) {
+				console.warn("[CastEffectEngine] cast() - no effect with id '" + effectId + "'");
+				return undefined;
+			}
+			const options = opts || {};
+			if(!options.target) {
+				console.warn("[CastEffectEngine] cast('" + effectId + "') called without opts.target");
+				return undefined;
+			}
+			try {
+				return await effect.cast(options.target, this.#ctx, options);
+			} catch(err) {
+				console.error("[CastEffectEngine] effect '" + effectId + "' threw", err);
+				return undefined;
+			}
 		}
 
 		boot() {
@@ -87,7 +117,7 @@
 				}
 			});
 
-			console.log("[CastEffectEngine] booted with " + this.#registry.count() + " plugins");
+			console.log("[CastEffectEngine] booted with " + this.#registry.count() + " plugins and " + this.#effects.count() + " effects");
 		}
 
 		#invokePlugin(plugin) {
@@ -95,19 +125,6 @@
 				plugin.action(this.#ctx);
 			} catch(err) {
 				console.error("[CastEffectEngine] plugin '" + plugin.id + "' threw", err);
-			}
-			this.#logActivation(plugin.id);
-		}
-
-		#logActivation(pluginId) {
-			try {
-				fetch(LOGGER_ENDPOINT, {
-					method: "POST",
-					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify({ function_name: "cast:" + pluginId })
-				}).catch((err) => console.debug("[CastEffectEngine] logging failed", err));
-			} catch(err) {
-				// fetch may not exist in very old browsers
 			}
 		}
 
@@ -130,12 +147,22 @@
 				type: p.trigger && p.trigger.type
 			}));
 		}
+
+		listEffects() {
+			return this.#effects.all().map((e) => ({
+				id: e.id,
+				name: e.name || e.id
+			}));
+		}
 	}
 
 	const instance = new CastEffectEngine();
 	window.CastEffectEngine = {
 		registerPlugin: (def) => instance.registerPlugin(def),
+		registerEffect: (def) => instance.registerEffect(def),
+		cast: (id, opts) => instance.cast(id, opts),
 		listPlugins: () => instance.listPlugins(),
+		listEffects: () => instance.listEffects(),
 		trigger: (id) => instance.trigger(id),
 		boot: () => instance.boot()
 	};

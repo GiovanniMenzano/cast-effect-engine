@@ -12,8 +12,13 @@
 	"use strict";
 
 	const ANIMATION_DURATION_MS = 12000;
-	const SOUND_NORMAL = "/assets/audio/xbox_achievement.mp3";
-	const SOUND_RARE = "/assets/audio/xbox_achievement_rare.mp3";
+	const ASSET_BASE = new URL("../../assets/", document.currentScript.src);
+	const assetUrl = (path) => new URL(path, ASSET_BASE).href;
+	const SOUND_RARE = assetUrl("audio/xbox_achievement_rare.mp3");
+	const TROPHY_FULL = assetUrl("img/xbox_achievement_trophy_full.svg");
+	const TROPHY_NO_HANDLES = assetUrl("img/xbox_achievement_trophy_no_handles.svg");
+	const XBOX_LOGO = assetUrl("img/xbox_achievement_logo.svg");
+	const GAMERSCORE_ICON = assetUrl("img/xbox_achievement_g.svg");
 
 	let mounted = false;
 	let isRunning = false;
@@ -25,11 +30,11 @@
 				<div class="achievement--wrapper">
 					<div class="achievement__circle">
 						<div class="img trophy_animate achievement__circle__trophy">
-							<img class="trophy_1" src="/assets/img/xbox_achievement_trophy_full.svg"/>
-							<img class="trophy_2" src="/assets/img/xbox_achievement_trophy_no_handles.svg"/>
+							<img class="trophy_1" src="${TROPHY_FULL}"/>
+							<img class="trophy_2" src="${TROPHY_NO_HANDLES}"/>
 						</div>
 						<div class="img achievement__circle__xbox">
-							<img src="/assets/img/xbox_achievement_logo.svg"/>
+							<img src="${XBOX_LOGO}"/>
 						</div>
 						<div class="achievement__circle__diamond--wrapper">
 							<div class="diamond"></div>
@@ -41,7 +46,7 @@
 								<span class="achievement__heander"></span>
 								<div class="achievement__description">
 									<div class="achievement__description__gamerscore--wrapper">
-										<img width="20px" src="/assets/img/xbox_achievement_g.svg"/>
+										<img width="20px" src="${GAMERSCORE_ICON}"/>
 										<span class="achievement__description__gamerscore"></span>
 									</div>
 									<span class="achievement__description__separator">-</span>

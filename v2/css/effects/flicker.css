@@ -1,0 +1,32 @@
+/* IT Pennywise creepy flash for ~0.8s. */
+@keyframes cast-flicker-anim {
+	0%   { opacity: 1;   filter: none; }
+	5%   { opacity: 0.1; filter: brightness(3); }
+	10%  { opacity: 0.9; filter: none; }
+	15%  { opacity: 0.05; filter: brightness(4) saturate(5); }
+	20%  { opacity: 1;   filter: none; }
+	45%  { opacity: 1;   filter: none; }
+	50%  { opacity: 0.1; filter: brightness(3) saturate(3); }
+	52%  { opacity: 0.8; filter: none; }
+	55%  { opacity: 0.05; filter: brightness(5); }
+	58%  { opacity: 1;   filter: none; }
+	80%  { opacity: 1;   filter: none; }
+	83%  { opacity: 0.15; filter: brightness(4); }
+	87%  { opacity: 1;   filter: none; }
+	100% { opacity: 1;   filter: none; }
+}
+
+.cast-flicker {
+	animation: cast-flicker-anim 0.8s ease-in-out forwards;
+	color: #ff4500;
+	text-shadow:
+		0 0 8px #ff4500,
+		0 0 20px #cc0000,
+		0 0 40px rgba(255, 0, 0, 0.4);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.cast-flicker {
+		animation: none;
+	}
+}
