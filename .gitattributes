@@ -1,0 +1,22 @@
+* text=auto eol=lf
+
+# Windows command files require CRLF.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Binary assets.
+*.db binary !eol
+*.db-journal binary !eol
+*.gif binary !eol
+*.ico binary !eol
+*.jpeg binary !eol
+*.jpg binary !eol
+*.mp3 binary !eol
+*.otf binary !eol
+*.pdf binary !eol
+*.png binary !eol
+*.ttf binary !eol
+*.webp binary !eol
+*.woff binary !eol
+*.woff2 binary !eol
+*.zip binary !eol
