@@ -76,6 +76,8 @@
 			const manager = this.#triggerManagers[definition.trigger.type];
 			if(manager) {
 				manager.add(definition);
+				// A trigger skipped during boot must start if its first plugin is registered later.
+				if(this.#booted) manager.start();
 			}
 			return true;
 		}
@@ -109,9 +111,16 @@
 
 			this.#input.start(document);
 
-			Object.values(this.#triggerManagers).forEach((mgr) => {
+			// Multiple plugins can share a trigger, so keep only the trigger types in use.
+			const activeTriggerTypes = new Set(
+				this.#registry.all().map((plugin) => plugin.trigger.type)
+			);
+
+			Object.entries(this.#triggerManagers).forEach(([type, manager]) => {
+				// Unused managers stay idle and do not install listeners or polling timers.
+				if(!activeTriggerTypes.has(type)) return;
 				try {
-					mgr.start();
+					manager.start();
 				} catch(err) {
 					console.error("[CastEffectEngine] trigger manager start failed", err);
 				}
