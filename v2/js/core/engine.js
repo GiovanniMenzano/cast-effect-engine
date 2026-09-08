@@ -117,7 +117,7 @@
 			);
 
 			Object.entries(this.#triggerManagers).forEach(([type, manager]) => {
-				// Unused managers stay idle and do not install listeners or polling timers.
+				// Unused triggers stay idle and do not install listeners or polling timers.
 				if(!activeTriggerTypes.has(type)) return;
 				try {
 					manager.start();
