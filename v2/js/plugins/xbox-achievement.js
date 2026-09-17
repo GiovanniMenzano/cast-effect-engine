@@ -1,9 +1,10 @@
 /**
  * Xbox Achievement - self-contained Xbox-style notification plugin.
  *
- * Type "xbox" to trigger the achievement banner. This plugin handles
- * everything internally: template injection, animation, sound playback,
- * and single-flight guard (no overlapping banners).
+ * Type "xbox" to trigger the achievement banner.
+ * Manual triggers may override name, header, score and width.
+ * This plugin handles everything internally: template injection, animation,
+ * sound playback, and single-flight guard (no overlapping banners).
  *
  * Original animation credits: Codepen "Xbox One Achievement in CSS
  * (Regular and Rare)" by Adam Cosman.
@@ -19,6 +20,16 @@
 	const TROPHY_NO_HANDLES = assetUrl("img/xbox_achievement_trophy_no_handles.svg");
 	const XBOX_LOGO = assetUrl("img/xbox_achievement_logo.svg");
 	const GAMERSCORE_ICON = assetUrl("img/xbox_achievement_g.svg");
+	const DEFAULT_TEXTS = {
+		it: {
+			name: "Easter egg trovato",
+			header: "Obiettivo raro sbloccato"
+		},
+		en: {
+			name: "Easter egg found",
+			header: "Rare achievement unlocked"
+		}
+	};
 
 	let mounted = false;
 	let isRunning = false;
@@ -61,9 +72,15 @@
 		mounted = true;
 	}
 
-	function showAchievement(ctx) {
+	function showAchievement(ctx, options) {
 		if(isRunning) return;
 		isRunning = true;
+		const language = document.documentElement.lang.split("-")[0];
+		const texts = DEFAULT_TEXTS[language] || DEFAULT_TEXTS.en;
+		const achievement = Object.assign({
+			score: "117",
+			wide: false
+		}, texts, options);
 
 		mount();
 
@@ -76,9 +93,10 @@
 			return;
 		}
 
-		nameEl.innerText = "Easter egg trovato";
-		scoreEl.innerText = "117";
-		headerEl.innerText = "Obiettivo raro sbloccato";
+		nameEl.innerText = achievement.name;
+		scoreEl.innerText = achievement.score;
+		headerEl.innerText = achievement.header;
+		rootEl.classList.toggle("achievement-notification--wide", achievement.wide);
 
 		ctx.sound.play(SOUND_RARE);
 		rootEl.classList.add("achievement-rare");
@@ -95,6 +113,7 @@
 			banner && banner.classList.remove("banner--animate");
 			text && text.classList.remove("text--animate");
 			rootEl.classList.remove("achievement-rare");
+			rootEl.classList.remove("achievement-notification--wide");
 			isRunning = false;
 		}, ANIMATION_DURATION_MS);
 	}
@@ -107,8 +126,8 @@
 			type: "keyboard",
 			sequence: ["x", "b", "o", "x"]
 		},
-		action(ctx) {
-			showAchievement(ctx);
+		action(ctx, options) {
+			showAchievement(ctx, options);
 		}
 	});
 })();

@@ -95,9 +95,20 @@ The engine ignores keyboard input while the user is writing inside an input, tex
 CastEffectEngine.registerPlugin(definition);
 CastEffectEngine.registerEffect(definition);
 CastEffectEngine.cast(effectId, { target });
-CastEffectEngine.trigger(pluginId);
+CastEffectEngine.trigger(pluginId, options);
 CastEffectEngine.listPlugins();
 CastEffectEngine.listEffects();
+```
+
+`trigger` forwards the optional values to the plugin. For example, the Xbox achievement accepts custom text, score and width:
+
+```javascript
+CastEffectEngine.trigger("xbox-achievement", {
+    name: "Custom achievement",
+    header: "Rare achievement unlocked",
+    score: "117",
+    wide: true
+});
 ```
 
 ## Adding an effect

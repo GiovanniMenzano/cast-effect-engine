@@ -15,7 +15,7 @@
  * Trigger dispatch: each plugin's `trigger.type` selects the manager that
  * actually watches for the fire condition (see `core/triggers/*`). When a
  * manager fires, it calls back into `#invokePlugin` which is the single
- * place that runs `action(ctx)`.
+ * place that runs `action(ctx, options)`.
  *
  * Effect dispatch: `cast(id, { target, ...opts })` looks up the effect
  * by id, awaits `effect.cast(target, ctx, opts)` and returns its result.
@@ -129,23 +129,23 @@
 			console.log("[CastEffectEngine] booted with " + this.#registry.count() + " plugins and " + this.#effects.count() + " effects");
 		}
 
-		#invokePlugin(plugin) {
+		#invokePlugin(plugin, options) {
 			try {
-				plugin.action(this.#ctx);
+				plugin.action(this.#ctx, options);
 			} catch(err) {
 				console.error("[CastEffectEngine] plugin '" + plugin.id + "' threw", err);
 			}
 		}
 
-		// Manual fire by plugin id. Useful to test non-keyboard plugins from
-		// DevTools without waiting for their natural trigger condition.
-		trigger(pluginId) {
+		// Manual fire by plugin id. Optional values reach the plugin action,
+		// making DevTools tests and one-off customization possible.
+		trigger(pluginId, options) {
 			const plugin = this.#registry.findById(pluginId);
 			if(!plugin) {
 				console.warn("[CastEffectEngine] trigger() - no plugin with id '" + pluginId + "'");
 				return false;
 			}
-			this.#invokePlugin(plugin);
+			this.#invokePlugin(plugin, options);
 			return true;
 		}
 
@@ -172,7 +172,7 @@
 		cast: (id, opts) => instance.cast(id, opts),
 		listPlugins: () => instance.listPlugins(),
 		listEffects: () => instance.listEffects(),
-		trigger: (id) => instance.trigger(id),
+		trigger: (id, options) => instance.trigger(id, options),
 		boot: () => instance.boot()
 	};
 
