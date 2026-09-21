@@ -94,12 +94,3 @@
 	80%  { top: 82%;  opacity: 0.3; }
 	100% { top: 100%; opacity: 0; }
 }
-
-@media (prefers-reduced-motion: reduce) {
-	.cast-glitch,
-	.cast-glitch-overlay,
-	.cast-glitch-overlay::before,
-	.cast-glitch-overlay::after {
-		animation: none;
-	}
-}

@@ -62,9 +62,3 @@
 	line-height: inherit;
 	animation: cast-meltdown-anim 2.5s ease-in forwards;
 }
-
-@media (prefers-reduced-motion: reduce) {
-	.cast-meltdown {
-		animation: none;
-	}
-}

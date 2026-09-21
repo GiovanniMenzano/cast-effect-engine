@@ -18,9 +18,3 @@
 .cast-text-glitch {
 	animation: cast-text-glitch-anim 0.9s steps(1) forwards;
 }
-
-@media (prefers-reduced-motion: reduce) {
-	.cast-text-glitch {
-		animation: none;
-	}
-}

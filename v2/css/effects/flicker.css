@@ -24,9 +24,3 @@
 		0 0 20px #cc0000,
 		0 0 40px rgba(255, 0, 0, 0.4);
 }
-
-@media (prefers-reduced-motion: reduce) {
-	.cast-flicker {
-		animation: none;
-	}
-}
