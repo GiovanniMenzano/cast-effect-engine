@@ -47,10 +47,10 @@
 			}
 
 			try {
-				// rewind so the same effect can be retriggered quickly
+				// Rewind so the same effect can be retriggered quickly
 				audio.currentTime = 0;
 			} catch(err) {
-				// some browsers throw if not yet loadable, ignore
+				// Some browsers throw if not yet loadable, ignore
 			}
 			if(typeof opts.volume === "number") {
 				audio.volume = Math.max(0, Math.min(1, opts.volume));

@@ -14,7 +14,7 @@
 	const FADE_ALPHA = 0.045;          // lower = longer trails
 	const FRAME_INTERVAL_MS = 55;      // ~18 FPS, film-like cadence
 	const HEAD_COLOR = "#cfffcf";      // near-white green: the "leader"
-	const BODY_COLOR = "#00cc33";      // standard Matrix green for the trail
+	const BODY_COLOR = "#00cc33";      // Standard Matrix green for the trail
 
 	let active = false;
 
@@ -114,7 +114,7 @@
 			rafId = requestAnimationFrame(draw);
 		};
 
-		// kick off
+		// Kick off
 		rafId = requestAnimationFrame(draw);
 
 		const stop = () => {

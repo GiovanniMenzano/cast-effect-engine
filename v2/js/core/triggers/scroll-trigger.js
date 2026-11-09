@@ -41,7 +41,7 @@
 			if(this.#started) return;
 			this.#started = true;
 			window.addEventListener("scroll", this.#scrollHandler, { passive: true });
-			// initial check in case the page is already scrolled (e.g. anchor link)
+			// Initial check in case the page is already scrolled (e.g. anchor link)
 			this.#scheduleEvaluation();
 		}
 
@@ -96,7 +96,7 @@
 					const el = document.querySelector(at.selector);
 					if(!el) return false;
 					const rect = el.getBoundingClientRect();
-					// element top has entered the viewport
+					// Element top has entered the viewport
 					return rect.top <= viewportH && rect.bottom >= 0;
 				}
 			}

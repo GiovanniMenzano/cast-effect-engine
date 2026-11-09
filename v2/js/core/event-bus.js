@@ -33,7 +33,7 @@
 		emit(event, payload) {
 			const set = this.#handlers.get(event);
 			if(!set || set.size === 0) return;
-			// snapshot so handlers can off() during emit without mutating iteration
+			// Snapshot so handlers can off() during emit without mutating iteration
 			[...set].forEach((handler) => {
 				try {
 					handler(payload);

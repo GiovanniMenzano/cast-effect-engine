@@ -34,7 +34,7 @@
 			const cleanup = () => {
 				element.style.transition = "none";
 				element.style.transform = previousTransform || "";
-				// next frame, restore previous transition
+				// Next frame, restore previous transition
 				requestAnimationFrame(() => {
 					element.style.transition = previousTransition || "";
 				});
@@ -47,7 +47,7 @@
 			};
 			element.addEventListener("transitionend", onEnd);
 
-			// safety net in case transitionend doesn't fire (e.g. tab backgrounded)
+			// Safety net in case transitionend doesn't fire (e.g. tab backgrounded)
 			setTimeout(() => cleanup(), duration + 200);
 		}
 

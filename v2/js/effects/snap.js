@@ -20,8 +20,8 @@
 
 	const COLS = 50;
 	const CELL_HEIGHT_PX = 4; // smaller = finer dust, larger = chunkier
-	const ANIMATION_MS = 3500; // includes the staggered per-cell delays
-	const TEXT_FADE_MS = 300; // soft fade of the original element
+	const ANIMATION_MS = 3500; // Includes the staggered per-cell delays
+	const TEXT_FADE_MS = 300; // Soft fade of the original element
 
 	window.CastEffectEngine.registerEffect({
 		id: "snap",
@@ -103,7 +103,7 @@
 					const distance = 60 + Math.random() * 120;
 					const dx = Math.cos(angle) * distance;
 					const dy = Math.sin(angle) * distance;
-					const rot = (Math.random() - 0.5) * 180; // tumble
+					const rot = (Math.random() - 0.5) * 180; // Tumble
 
 					// Left-to-right dissolve wave via per-column delay.
 					const delay = (c / COLS) * 1500 + Math.random() * 200;

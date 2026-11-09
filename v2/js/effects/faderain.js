@@ -80,7 +80,7 @@
 				for(let i = drops.length - 1; i >= 0; i--) {
 					const d = drops[i];
 					d.y += d.speed;
-					d.x += 0.4; // slight wind drift
+					d.x += 0.4; // Slight wind drift
 
 					const grad = g.createLinearGradient(d.x, d.y, d.x + 2, d.y + d.len);
 					grad.addColorStop(0, "rgba(200, 220, 240, 0)");
