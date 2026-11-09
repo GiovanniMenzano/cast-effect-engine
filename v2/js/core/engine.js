@@ -9,6 +9,9 @@
  *   - Plugins start from a trigger such as keyboard, time, idle or scroll.
  *   - Effects run on demand through `CastEffectEngine.cast(id, opts)`.
  *
+ * Keyboard plugins made of single keys are also text commands: the sequence joined together
+ * ("matrix") runs them with CastEffectEngine.run(command).
+ *
  * Both receive a frozen `ctx` object (sound/vfx/bus/sleep/log).
  * They never reach into core internals directly.
  *
@@ -149,6 +152,37 @@
 			return true;
 		}
 
+		// Runs a keyboard plugin by the word that triggers it (like "matrix").
+		// Throws a CommandNotFoundError, so whoever calls it (a terminal for example) can print it
+		run(command) {
+			const name = String(command || "").trim().toLowerCase();
+			const plugin = name
+				? this.#registry.all().find((p) => CastEffectEngine.#commandOf(p) === name)
+				: null;
+			if(!plugin) {
+				const err = new Error("command not found: " + name);
+				err.name = "CommandNotFoundError";
+				throw err;
+			}
+			this.#invokePlugin(plugin);
+		}
+
+		listCommands() {
+			return this.#registry.all()
+				.map((p) => CastEffectEngine.#commandOf(p))
+				.filter(Boolean)
+				.sort();
+		}
+
+		// A plugin is a text command only if its keyboard sequence is made of single keys
+		// (Konami uses the arrows, so it stays keyboard only)
+		static #commandOf(plugin) {
+			const t = plugin.trigger;
+			if(!t || t.type !== "keyboard") return null;
+			if(!t.sequence.every((k) => typeof k === "string" && k.length === 1)) return null;
+			return t.sequence.join("").toLowerCase();
+		}
+
 		listPlugins() {
 			return this.#registry.all().map((p) => ({
 				id: p.id,
@@ -173,6 +207,8 @@
 		listPlugins: () => instance.listPlugins(),
 		listEffects: () => instance.listEffects(),
 		trigger: (id, options) => instance.trigger(id, options),
+		run: (command) => instance.run(command),
+		listCommands: () => instance.listCommands(),
 		boot: () => instance.boot()
 	};
 

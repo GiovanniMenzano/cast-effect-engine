@@ -98,6 +98,18 @@ CastEffectEngine.cast(effectId, { target });
 CastEffectEngine.trigger(pluginId, options);
 CastEffectEngine.listPlugins();
 CastEffectEngine.listEffects();
+CastEffectEngine.run(command);
+CastEffectEngine.listCommands();
+```
+
+`run` starts a keyboard plugin by the word that triggers it, so `run("matrix")` does what typing `matrix` does. Only sequences made of single keys count as commands (the Konami Code stays keyboard-only). `listCommands` returns them sorted, e.g. `["bsod", "crash", "glitch", "matrix", "roll", "xbox"]`. An unknown command throws an error named `CommandNotFoundError`:
+
+```javascript
+try {
+    CastEffectEngine.run(userInput);
+} catch (err) {
+    if (err.name === "CommandNotFoundError") console.log(userInput + ": command not found");
+}
 ```
 
 `trigger` forwards the optional values to the plugin. For example, the Xbox achievement accepts custom text, score and width:
@@ -168,6 +180,8 @@ Then add it to the `PLUGINS` array in `js/loader.js`. A plugin with its own styl
 ```
 
 Available trigger types are `keyboard`, `time`, `idle` and `scroll`. Their required fields are checked by the matching modules in `js/core/triggers/`.
+
+A keyboard plugin whose sequence is made of single keys is also a command for `CastEffectEngine.run()`: the plugin above runs with `run("hello")`.
 
 ## TypeWriter example
 

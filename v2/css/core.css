@@ -2,11 +2,13 @@
 
 .cast-fullscreen-overlay {
 	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100vw;
-	height: 100vh;
+	/* Inset and not 100vw/100vh: on Chrome Android 100vh ignores the tab group bar at the bottom,
+	 * so when the bars hide on scroll a strip of the site showed up under the overlay */
+	inset: 0;
 	z-index: 99999;
 	pointer-events: auto;
 	overflow: hidden;
+	/* The effect owns the screen: no touch scrolling under it, so the browser bars don't move */
+	touch-action: none;
+	overscroll-behavior: none;
 }
