@@ -77,7 +77,7 @@
 		}
 
 		#onActivity() {
-			// re-arm every still-eligible plugin
+			// Re-arm every still-eligible plugin
 			this.#plugins.forEach((plugin) => {
 				if(this.#firedOnce.has(plugin.id) && plugin.trigger.repeat !== true) return;
 				this.#arm(plugin);

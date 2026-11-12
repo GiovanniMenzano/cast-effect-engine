@@ -21,6 +21,8 @@
  *   - cleanup:     () => void -> function the caller invokes when ready to
  *                                wipe persistent side-effects (e.g. classes
  *                                kept on the target through a deletion phase).
+ *   - skipDisplayPause: boolean -> lets integrations start their normal text
+ *                                  cleanup as soon as the effect completes.
  */
 (function() {
 	"use strict";

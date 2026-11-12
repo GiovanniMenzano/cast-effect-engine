@@ -1,0 +1,77 @@
+.cast-dice-stage {
+	position: fixed;
+	inset: 0;
+	z-index: 99999;
+	pointer-events: none;
+	overflow: hidden;
+}
+
+.cast-dice-group {
+	--cast-die-size: clamp(52px, 7vw, 82px);
+	position: absolute;
+	display: flex;
+	gap: clamp(18px, 2.5vw, 34px);
+	width: calc(var(--cast-die-size) * 2 + clamp(18px, 2.5vw, 34px));
+	height: var(--cast-die-size);
+	perspective: 720px;
+	transform-style: preserve-3d;
+	will-change: transform, opacity;
+}
+
+.cast-die-slot,
+.cast-die {
+	position: relative;
+	width: var(--cast-die-size);
+	height: var(--cast-die-size);
+	transform-style: preserve-3d;
+}
+
+.cast-die {
+	will-change: transform;
+}
+
+/* Cyan dice: it goes well with most dark color themes */
+.cast-die__face {
+	position: absolute;
+	inset: 0;
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	grid-template-rows: repeat(3, 1fr);
+	padding: 16%;
+	border: max(1px, calc(var(--cast-die-size) * 0.025)) solid rgba(130, 235, 240, 0.9);
+	border-radius: 18%;
+	background:
+		radial-gradient(circle at 32% 24%, rgba(255, 255, 255, 0.12), transparent 40%),
+		linear-gradient(145deg, #103a40, #0a1618 72%);
+	box-shadow:
+		inset 0 0 13px rgba(92, 225, 230, 0.22),
+		0 0 15px rgba(92, 225, 230, 0.42);
+	backface-visibility: hidden;
+}
+
+.cast-die__face--1 { transform: translateZ(calc(var(--cast-die-size) / 2)); }
+.cast-die__face--6 { transform: rotateY(180deg) translateZ(calc(var(--cast-die-size) / 2)); }
+.cast-die__face--3 { transform: rotateY(90deg) translateZ(calc(var(--cast-die-size) / 2)); }
+.cast-die__face--4 { transform: rotateY(-90deg) translateZ(calc(var(--cast-die-size) / 2)); }
+.cast-die__face--2 { transform: rotateX(90deg) translateZ(calc(var(--cast-die-size) / 2)); }
+.cast-die__face--5 { transform: rotateX(-90deg) translateZ(calc(var(--cast-die-size) / 2)); }
+
+.cast-die__pip {
+	align-self: center;
+	justify-self: center;
+	width: 52%;
+	aspect-ratio: 1;
+	border-radius: 50%;
+	background: #effeff;
+	box-shadow:
+		0 0 5px rgba(255, 255, 255, 0.8),
+		0 0 10px rgba(92, 225, 230, 0.8);
+}
+
+@media (max-width: 600px) {
+	.cast-dice-group {
+		--cast-die-size: clamp(50px, 15vw, 64px);
+		gap: 18px;
+		width: calc(var(--cast-die-size) * 2 + 18px);
+	}
+}

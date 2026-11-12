@@ -10,7 +10,8 @@
 		"Core temperature critical{effect:meltdown}",
 		"All those moments...{effect:faderain}",
 		"Player was ejected{effect:eject}",
-		"Half the text is enough{effect:snap}"
+		"Half the text is enough{effect:snap}",
+		"Roll for initiative{effect:dice-roll}"
 	];
 
 	document.addEventListener("DOMContentLoaded", initDemo);

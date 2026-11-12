@@ -58,6 +58,7 @@ if(ready) {
 - `faderain`: rain drawn over the target with a canvas.
 - `snap`: the target dissolves into particles.
 - `eject`: an Among Us crewmate crosses the screen.
+- `dice-roll`: two dice tumble in near the target, settle on a result that never totals five or eight, then fade away.
 
 `matrixgreen` and `frost` return a cleanup function because they are persistent:
 

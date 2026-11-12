@@ -38,7 +38,8 @@
 		{ script: "effects/text-glitch.js", style: "effects/text-glitch.css" },
 		{ script: "effects/faderain.js", style: "effects/faderain.css" },
 		{ script: "effects/snap.js" },
-		{ script: "effects/eject.js", style: "effects/eject.css" }
+		{ script: "effects/eject.js", style: "effects/eject.css" },
+		{ script: "effects/dice-roll.js", style: "effects/dice-roll.css" }
 	];
 
 	const PLUGINS = [
